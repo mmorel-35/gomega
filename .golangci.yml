@@ -2,3 +2,12 @@ linters:
   disable:
     - errcheck
     - unused
+  enable:
+    - gci
+
+linters-settings:
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/onsi)
