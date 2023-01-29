@@ -75,7 +75,7 @@ func SpecMatch() SpecMatcher {
 	return SpecMatcher{}
 }
 
-//FakeGomegaTestingT
+// FakeGomegaTestingT
 type FakeGomegaTestingT struct {
 	CalledHelper bool
 	CalledFatalf string
