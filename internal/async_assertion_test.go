@@ -1110,10 +1110,7 @@ var _ = Describe("Asynchronous Assertions", func() {
 					},
 					func(_ any) bool {
 						order = append(order, fmt.Sprintf("oracle %d", i))
-						if i == 3 {
-							return false
-						}
-						return true
+						return i != 3
 					},
 				))
 				Ω(i).Should(Equal(4))
