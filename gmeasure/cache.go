@@ -27,7 +27,7 @@ Cached Experiments are stored as separate files in the cache directory - the fil
 func NewExperimentCache(path string) (ExperimentCache, error) {
 	stat, err := os.Stat(path)
 	if os.IsNotExist(err) {
-		err := os.MkdirAll(path, 0777)
+		err := os.MkdirAll(path, 0o777)
 		if err != nil {
 			return ExperimentCache{}, err
 		}

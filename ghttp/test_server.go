@@ -160,22 +160,22 @@ func NewTLSServer() *Server {
 }
 
 type Server struct {
-	//The underlying httptest server
+	// The underlying httptest server
 	HTTPTestServer *httptest.Server
 
-	//Defaults to false.  If set to true, the Server will allow more requests than there are registered handlers.
-	//Direct use of this property is deprecated and is likely to be removed, use GetAllowUnhandledRequests and SetAllowUnhandledRequests instead.
+	// Defaults to false.  If set to true, the Server will allow more requests than there are registered handlers.
+	// Direct use of this property is deprecated and is likely to be removed, use GetAllowUnhandledRequests and SetAllowUnhandledRequests instead.
 	AllowUnhandledRequests bool
 
-	//The status code returned when receiving an unhandled request.
-	//Defaults to http.StatusInternalServerError.
-	//Only applies if AllowUnhandledRequests is true
-	//Direct use of this property is deprecated and is likely to be removed, use GetUnhandledRequestStatusCode and SetUnhandledRequestStatusCode instead.
+	// The status code returned when receiving an unhandled request.
+	// Defaults to http.StatusInternalServerError.
+	// Only applies if AllowUnhandledRequests is true
+	// Direct use of this property is deprecated and is likely to be removed, use GetUnhandledRequestStatusCode and SetUnhandledRequestStatusCode instead.
 	UnhandledRequestStatusCode int
 
-	//If provided, ghttp will log about each request received to the provided io.Writer
-	//Defaults to nil
-	//If you're using Ginkgo, set this to GinkgoWriter to get improved output during failures
+	// If provided, ghttp will log about each request received to the provided io.Writer
+	// Defaults to nil
+	// If you're using Ginkgo, set this to GinkgoWriter to get improved output during failures
 	Writer io.Writer
 
 	receivedRequests []*http.Request
@@ -233,20 +233,20 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 
-		//If the handler panics GHTTP will silently succeed.  This is bad™.
-		//To catch this case we need to fail the test if the handler has panicked.
-		//However, if the handler is panicking because Ginkgo's causing it to panic (i.e. an assertion failed)
-		//then we shouldn't double-report the error as this will confuse people.
+		// If the handler panics GHTTP will silently succeed.  This is bad™.
+		// To catch this case we need to fail the test if the handler has panicked.
+		// However, if the handler is panicking because Ginkgo's causing it to panic (i.e. an assertion failed)
+		// then we shouldn't double-report the error as this will confuse people.
 
-		//So: step 1, if this is a Ginkgo panic - do nothing, Ginkgo's aware of the failure
+		// So: step 1, if this is a Ginkgo panic - do nothing, Ginkgo's aware of the failure
 		eAsString, ok := e.(string)
 		if ok && strings.Contains(eAsString, "defer GinkgoRecover()") {
 			return
 		}
 
-		//If we're here, we have to do step 2: assert that the error is nil.  This assertion will
-		//allow us to fail the test suite (note: we can't call Fail since Gomega is not allowed to import Ginkgo).
-		//Since a failed assertion throws a panic, and we are likely in a goroutine, we need to defer within our defer!
+		// If we're here, we have to do step 2: assert that the error is nil.  This assertion will
+		// allow us to fail the test suite (note: we can't call Fail since Gomega is not allowed to import Ginkgo).
+		// Since a failed assertion throws a panic, and we are likely in a goroutine, we need to defer within our defer!
 		defer func() {
 			recover()
 		}()

@@ -3,4 +3,4 @@ linters:
     - errcheck
     - unused
   enable:
-    - gofmt
+    - gofumpt
